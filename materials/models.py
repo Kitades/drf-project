@@ -1,10 +1,12 @@
 from django.db import models
 
+NULLABLE = {'blank': True, 'null': True}
+
 
 class Course(models.Model):
     title = models.CharField(max_length=100, verbose_name="Название курса")
-    image = models.ImageField(upload_to='materials/images', verbose_name='Превью', blank=True, null=True)
-    description = models.TextField(verbose_name="Описание курса")
+    image = models.ImageField(upload_to='materials/images', verbose_name='Превью', **NULLABLE)
+    description = models.TextField(verbose_name="Описание курса", **NULLABLE)
 
     class Meta:
         verbose_name = "Курс"
@@ -13,10 +15,10 @@ class Course(models.Model):
 
 class Lesson(models.Model):
     title = models.CharField(max_length=50, verbose_name='Урок')
-    description = models.TextField(verbose_name='Описание урока')
-    image = models.ImageField(upload_to='materials/images', verbose_name='Превью', blank=True, null=True)
-    slug = models.SlugField(verbose_name='url')
-    lesson = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='lessons')
+    description = models.TextField(verbose_name='Описание урока', **NULLABLE)
+    image = models.ImageField(upload_to='materials/images', verbose_name='Превью', **NULLABLE)
+    link = models.URLField(verbose_name='url', **NULLABLE)
+    courses = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='Курс', **NULLABLE)
 
     class Meta:
         verbose_name = "Урок"
