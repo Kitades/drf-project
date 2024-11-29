@@ -10,15 +10,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 
-# SECRET_KEY = 'django-insecure-f6_3#)+=hp4tw)c+yv3l+%(@k(0@n7h%2_()&7!(z2-3j-jknd'
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = 'django-insecure-f6_3#)+=hp4tw)c+yv3l+%(@k(0@n7h%2_()&7!(z2-3j-jknd'
+# SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-DEBUG = os.getenv('DEBUG')
+DEBUG = True
+# DEBUG = os.getenv('DEBUG')
 
-# ALLOWED_HOSTS = []
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOST')
+ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = os.getenv('ALLOWED_HOST', '').split(',')
 
 # Application definition
 
@@ -31,8 +31,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    'django_filters',
     'users',
     'materials',
+
 ]
 
 MIDDLEWARE = [
@@ -65,30 +67,33 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'drf',
-#         'USER': 'postgres',
-#         'PASSWORD': '9256',
-#         'HOST': '127.0.0.1',
-#         'PORT': '5432',
-#     }
-# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'POSTGRES_DB': os.getenv('POSTGRES_DB'),
-        'POSTGRES_USER': os.getenv('POSTGRES_USER'),
-        'POSTGRES_PASSWORD': os.getenv('POSTGRES_PASSWORD'),
-        'POSTGRES_HOST': os.getenv('POSTGRES_HOST'),
-        'POSTGRES_PORT': os.getenv('POSTGRES_PORT'),
+        'NAME': 'drf',
+        'USER': 'postgres',
+        'PASSWORD': '9256',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'POSTGRES_DB': os.getenv('POSTGRES_DB'),
+#         'POSTGRES_USER': os.getenv('POSTGRES_USER'),
+#         'POSTGRES_PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+#         'POSTGRES_HOST': os.getenv('POSTGRES_HOST'),
+#         'POSTGRES_PORT': os.getenv('POSTGRES_PORT'),
+#     }
+# }
 
 
 # Password validation
