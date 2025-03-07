@@ -33,8 +33,19 @@ class Payments(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='payments', verbose_name='Пользователь')
     date_payment = models.DateTimeField(verbose_name='дата оплаты', **NULLABLE)
     amount = models.PositiveIntegerField(verbose_name='Сумма оплаты')
-    payment_type = models.CharField(max_length=11, default=CASHLESS_PAY, choices=PAYMENT_CHOICES)
+    payment_type = models.CharField(max_length=11, default=CASHLESS_PAY, choices=PAYMENT_CHOICES, **NULLABLE)
     payment_course = models.ForeignKey(Course, related_name='course', on_delete=models.CASCADE,
-                                       verbose_name='оплаченный курс')
+                                       verbose_name='оплаченный курс', **NULLABLE)
     payment_lesson = models.ForeignKey(Lesson, related_name='lessons', on_delete=models.CASCADE,
-                                       verbose_name='оплаченный урок')
+                                       verbose_name='оплаченный урок', **NULLABLE)
+
+
+class Follow(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_follow', verbose_name='Пользователь',
+                             **NULLABLE)
+    courses = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='follow_courses', verbose_name='курс',
+                                **NULLABLE)
+
+    class Meta:
+        verbose_name = "Подписка"
+        verbose_name_plural = "Подписки"
