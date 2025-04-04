@@ -9,7 +9,8 @@ class Course(models.Model):
     image = models.ImageField(upload_to='materials/images', verbose_name='Превью', **NULLABLE)
     description = models.TextField(verbose_name="Описание курса", **NULLABLE)
     link = models.URLField(verbose_name='url', **NULLABLE)
-    owner = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='owner_course', verbose_name='Пользователь',
+    owner = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='owner_course',
+                              verbose_name='Пользователь',
                               **NULLABLE)
 
     class Meta:
@@ -23,7 +24,8 @@ class Lesson(models.Model):
     image = models.ImageField(upload_to='materials/images', verbose_name='Превью', **NULLABLE)
     link = models.URLField(verbose_name='url', **NULLABLE)
     courses = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='lesson_set', **NULLABLE)
-    owner = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='owner_lesson', verbose_name='Пользователь',
+    owner = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='owner_lesson',
+                              verbose_name='Пользователь',
                               **NULLABLE)
 
     class Meta:
