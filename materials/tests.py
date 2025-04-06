@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 from materials.models import Course, Lesson
-from users.models import User
+from users.models import User, Follow
 
 
 class CourseTestCase(APITestCase):
@@ -12,6 +12,7 @@ class CourseTestCase(APITestCase):
         self.user = User.objects.create(email="test@test.com")
         self.course = Course.objects.create(title="test_course", description="test_description", owner=self.user)
         self.lesson = Lesson.objects.create(title='test_lesson', courses=self.course, owner=self.user)
+        self.follow = Follow.objects.create(courses=self.course, user=self.user)
         self.client.force_authenticate(user=self.user)
 
     def test_course_retrieve(self):
@@ -78,6 +79,13 @@ class CourseTestCase(APITestCase):
         self.assertEqual(
             res, 6
         )
+
+    def test_follow(self):
+        url = reverse('users:follow-check', args=(self.follow.pk,))
+        data = {"test-course": self.course.pk}
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data.get("mess"), 'no sub')
 
 
 class LessonsTestCase(APITestCase):

@@ -33,8 +33,8 @@ class FollowUpdateAPIView(UpdateAPIView):
     serializer_class = FollowSerializer
 
     def post(self, *args, **kwargs):
-        user = self.requests.user
-        course_id = self.requests.data.get("id")
+        user = self.request.user
+        course_id = self.request.data.get("id")
         course_item = get_object_or_404(Course, course_id)
 
         subs_item = Follow.objects.filter(user=user, course=course_item)

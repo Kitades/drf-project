@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from materials.models import Course, Lesson
 from materials.validators import validate_not_forbidden
+from users.serializers import FollowSerializer
 
 
 class LessonSerializer(serializers.ModelSerializer):
@@ -14,6 +15,7 @@ class LessonSerializer(serializers.ModelSerializer):
 class CourseSerializer(serializers.ModelSerializer):
     lesson = LessonSerializer(read_only=True)
     link = serializers.URLField(validators=[validate_not_forbidden])
+    follow = FollowSerializer(read_only=True)
 
     class Meta:
         model = Course
