@@ -7,36 +7,46 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('materials', '0001_initial'),
+        ("materials", "0001_initial"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='lesson',
-            name='lesson',
+            model_name="lesson",
+            name="lesson",
         ),
         migrations.RemoveField(
-            model_name='lesson',
-            name='slug',
+            model_name="lesson",
+            name="slug",
         ),
         migrations.AddField(
-            model_name='lesson',
-            name='courses',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='Курс', to='materials.course'),
+            model_name="lesson",
+            name="courses",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="Курс",
+                to="materials.course",
+            ),
         ),
         migrations.AddField(
-            model_name='lesson',
-            name='link',
-            field=models.URLField(blank=True, null=True, verbose_name='url'),
+            model_name="lesson",
+            name="link",
+            field=models.URLField(blank=True, null=True, verbose_name="url"),
         ),
         migrations.AlterField(
-            model_name='course',
-            name='description',
-            field=models.TextField(blank=True, null=True, verbose_name='Описание курса'),
+            model_name="course",
+            name="description",
+            field=models.TextField(
+                blank=True, null=True, verbose_name="Описание курса"
+            ),
         ),
         migrations.AlterField(
-            model_name='lesson',
-            name='description',
-            field=models.TextField(blank=True, null=True, verbose_name='Описание урока'),
+            model_name="lesson",
+            name="description",
+            field=models.TextField(
+                blank=True, null=True, verbose_name="Описание урока"
+            ),
         ),
     ]

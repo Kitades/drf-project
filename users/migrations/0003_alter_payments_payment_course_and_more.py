@@ -8,36 +8,84 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('materials', '0003_alter_lesson_courses'),
-        ('users', '0002_payments'),
+        ("materials", "0003_alter_lesson_courses"),
+        ("users", "0002_payments"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='payments',
-            name='payment_course',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='course', to='materials.course', verbose_name='оплаченный курс'),
+            model_name="payments",
+            name="payment_course",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="course",
+                to="materials.course",
+                verbose_name="оплаченный курс",
+            ),
         ),
         migrations.AlterField(
-            model_name='payments',
-            name='payment_lesson',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='lessons', to='materials.lesson', verbose_name='оплаченный урок'),
+            model_name="payments",
+            name="payment_lesson",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="lessons",
+                to="materials.lesson",
+                verbose_name="оплаченный урок",
+            ),
         ),
         migrations.AlterField(
-            model_name='payments',
-            name='payment_type',
-            field=models.CharField(blank=True, choices=[('наличные', 'наличные'), ('безналичный', 'безналичный')], default='безналичный', max_length=11, null=True),
+            model_name="payments",
+            name="payment_type",
+            field=models.CharField(
+                blank=True,
+                choices=[("наличные", "наличные"), ("безналичный", "безналичный")],
+                default="безналичный",
+                max_length=11,
+                null=True,
+            ),
         ),
         migrations.CreateModel(
-            name='Follow',
+            name="Follow",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('courses', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='follow_courses', to='materials.course', verbose_name='курс')),
-                ('user', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='user_follow', to=settings.AUTH_USER_MODEL, verbose_name='Пользователь')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "courses",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="follow_courses",
+                        to="materials.course",
+                        verbose_name="курс",
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="user_follow",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="Пользователь",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Подписка',
-                'verbose_name_plural': 'Подписки',
+                "verbose_name": "Подписка",
+                "verbose_name_plural": "Подписки",
             },
         ),
     ]

@@ -6,15 +6,16 @@ from rest_framework.response import Response
 
 from materials.models import Course
 from users.models import Payments, User, Follow
-from users.serializers import PaymentsSerializer, UserSerializer, FollowSerializer
+from users.serializers import PaymentsSerializer, UserSerializer, FollowSerializer, DonationSerializer
+from users.services import convert_rub_to_usd, create_stripe_session, create_stripe_price
 
 
 class PaymentsViewSet(ModelViewSet):
     queryset = Payments.objects.all()
     serializer_class = PaymentsSerializer
     filter_backends = [filters.OrderingFilter]
-    filterset_fields = ('payment_type', 'payment_course', 'payment_lesson')
-    ordering_fields = ('date_payment',)
+    filterset_fields = ("payment_type", "payment_course", "payment_lesson")
+    ordering_fields = ("date_payment",)
 
 
 class UserCreateAPIView(CreateAPIView):
@@ -35,20 +36,36 @@ class FollowUpdateAPIView(UpdateAPIView):
     def post(self, *args, **kwargs):
         user = self.request.user
         course_id = self.request.data.get("id")
-        course_item = get_object_or_404(Course,  id=course_id)
+        course_item = get_object_or_404(Course, id=course_id)
 
         subs_item = Follow.objects.filter(user=user, courses=course_item)
 
         # Если подписка у пользователя на этот курс есть - удаляем ее
         if subs_item.exists():
             subs_item.delete()
-            message = 'подписка удалена'
+            message = "подписка удалена"
             status_code = status.HTTP_200_OK
         # Если подписки у пользователя на этот курс нет - создаем ее
         else:
             subs_item.create()
-            message = 'подписка добавлена'
+            message = "подписка добавлена"
             status_code = status.HTTP_201_CREATED
 
         # Возвращаем ответ в API
         return Response({"message": message}, status=status_code)
+
+
+class DonationCreateAPIView(CreateAPIView):
+    serializer_class = DonationSerializer
+    queryset = User.objects.all()
+
+    def perform_create(self, serializer):
+        payment = serializer.save(user=self.request.user)
+        amount_in_dollars = convert_rub_to_usd(payment.amount)
+        price = create_stripe_price(amount_in_dollars)
+        session_id, payment_link = create_stripe_session(price)
+        payment.session_id = session_id
+        payment.link = payment_link
+        payment.save()
+
+
