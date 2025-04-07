@@ -81,7 +81,7 @@ class CourseTestCase(APITestCase):
         )
 
     def test_follow(self):
-        url = reverse('users:follow-check', args=(self.follow.pk,))
+        url = reverse('users:follow-check', args=(self.course.pk,))
         data = {"test-course": self.course.pk}
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
