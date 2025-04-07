@@ -33,7 +33,6 @@ class CourseTestCase(APITestCase):
             'link': "https://www.youtube.com/s"
         }
         response = self.client.post(url, data)
-        print(response)
         self.assertEqual(
             response.status_code, status.HTTP_201_CREATED
         )
@@ -82,10 +81,11 @@ class CourseTestCase(APITestCase):
 
     def test_follow(self):
         url = reverse('users:follow-check', args=(self.course.pk,))
-        data = {"test-course": self.course.pk}
+        data = {'id': self.course.pk}
+
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data.get("mess"), 'no sub')
+        self.assertEqual(response.data.get("message"), 'подписка удалена')
 
 
 class LessonsTestCase(APITestCase):
