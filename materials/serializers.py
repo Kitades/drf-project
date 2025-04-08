@@ -6,7 +6,6 @@ from users.serializers import FollowSerializer
 
 
 class LessonSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Lesson
         fields = ("title", "description")
@@ -15,7 +14,7 @@ class LessonSerializer(serializers.ModelSerializer):
 class CourseSerializer(serializers.ModelSerializer):
     lesson = LessonSerializer(read_only=True)
     link = serializers.URLField(validators=[validate_not_forbidden])
-    follow = FollowSerializer(read_only=True)
+    follow = FollowSerializer(many=True, read_only=True, source="follow_courses")
 
     class Meta:
         model = Course
