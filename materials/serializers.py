@@ -14,7 +14,7 @@ class LessonSerializer(serializers.ModelSerializer):
 class CourseSerializer(serializers.ModelSerializer):
     lesson = LessonSerializer(read_only=True)
     link = serializers.URLField(validators=[validate_not_forbidden])
-    follow = FollowSerializer(many=True, read_only=True, source="follow_courses")
+    follow = FollowSerializer(many=True, read_only=True, source="follow_courses" )
 
     class Meta:
         model = Course
