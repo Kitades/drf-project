@@ -13,13 +13,20 @@ def convert_rub_to_usd(amount):
     return int(amount * rate)
 
 
-def create_stripe_price(amount):
+def create_stripe_product(product):
+    """Создание продукта на страйпе"""
+    return stripe.Product.create(
+        name=product.title
+    )
+
+
+def create_stripe_price(amount, product):
     """Создает цену на страйпе"""
 
     return stripe.Price.create(
         currency="usd",
         unit_amount=amount * 100,
-        product_data={"name": "Donation"},
+        product=product.id,
     )
 
 

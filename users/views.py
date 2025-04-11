@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from materials.models import Course
 from users.models import Payments, User, Follow
 from users.serializers import PaymentsSerializer, UserSerializer, FollowSerializer, DonationSerializer
-from users.services import convert_rub_to_usd, create_stripe_session, create_stripe_price
+from users.services import convert_rub_to_usd, create_stripe_session, create_stripe_price, create_stripe_product
 
 
 class PaymentsViewSet(ModelViewSet):
@@ -60,12 +60,12 @@ class DonationCreateAPIView(CreateAPIView):
     queryset = User.objects.all()
 
     def perform_create(self, serializer):
+        course = Course.objects.get(pk=int(self.request.data.get('course')))
         payment = serializer.save(user=self.request.user)
         amount_in_dollars = convert_rub_to_usd(payment.amount)
-        price = create_stripe_price(amount_in_dollars)
+        product = create_stripe_product(course)
+        price = create_stripe_price(amount_in_dollars, product)
         session_id, payment_link = create_stripe_session(price)
         payment.session_id = session_id
         payment.link = payment_link
         payment.save()
-
-

@@ -9,8 +9,8 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECRET_KEY = "django-insecure-f6_3#)+=hp4tw)c+yv3l+%(@k(0@n7h%2_()&7!(z2-3j-jknd"
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = "django-insecure-f6_3#)+=hp4tw)c+yv3l+%(@k(0@n7h%2_()&7!(z2-3j-jknd"
+# SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -76,12 +76,12 @@ REST_FRAMEWORK = {
     ],
 }
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
-#     }
-# }
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+    }
+}
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -92,16 +92,16 @@ REST_FRAMEWORK = {
 #         'PORT': '5432',
 #     }
 # }
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'POSTGRES_DB': os.getenv('POSTGRES_DB'),
-        'POSTGRES_USER': os.getenv('POSTGRES_USER'),
-        'POSTGRES_PASSWORD': os.getenv('POSTGRES_PASSWORD'),
-        'POSTGRES_HOST': os.getenv('POSTGRES_HOST'),
-        'POSTGRES_PORT': os.getenv('POSTGRES_PORT'),
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'POSTGRES_DB': os.getenv('POSTGRES_DB'),
+#         'POSTGRES_USER': os.getenv('POSTGRES_USER'),
+#         'POSTGRES_PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+#         'POSTGRES_HOST': os.getenv('POSTGRES_HOST'),
+#         'POSTGRES_PORT': os.getenv('POSTGRES_PORT'),
+#     }
+# }
 
 
 # Password validation
@@ -147,6 +147,6 @@ SIMPLE_JWT = {
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
 
-# STRIPE_API_KEY = "sk_test_51R9m9VQQZix9QnkHTTxPCo0f4RtWCpmk3P3Go47DdVVd1ILyTVK4rCNwiaJjuRNyPw6oXTSHbQSmL9EtYlXKVQmI00wJtCP93r"
+STRIPE_API_KEY = "sk_test_51R9m9VQQZix9QnkHTTxPCo0f4RtWCpmk3P3Go47DdVVd1ILyTVK4rCNwiaJjuRNyPw6oXTSHbQSmL9EtYlXKVQmI00wJtCP93r"
 
-STRIPE_API_KEY = os.getenv("STRIPE_API_KEY")
+# STRIPE_API_KEY = os.getenv("STRIPE_API_KEY")
